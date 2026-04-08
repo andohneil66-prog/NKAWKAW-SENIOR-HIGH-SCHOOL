@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>News - Nkawkaw Senior High School</title>
+<style>
+* {box-sizing: border-box; margin: 0; padding: 0}
+body {font-family: 'Segoe UI', Arial, sans-serif; background: #f8f9fa; color: #333; line-height: 1.6}
+a {text-decoration: none; color: inherit}
+
+header {
+  background: linear-gradient(135deg, #1a4731 0%, #0d5c2e 100%);
+  color: white;
+  padding: 20px;
+  text-align: center
+}
+header .logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 10px
+}
+header .logo {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid white;
+  background: white
+}
+header h1 {font-size: 2.2rem; margin-bottom: 5px}
+header p {font-size: 1.1rem; opacity: 0.9}
+
+nav {
+  background: #111;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 100
+}
+nav a {
+  color: white;
+  padding: 16px 24px;
+  text-decoration: none;
+  transition: 0.3s;
+  border-bottom: 3px solid transparent
+}
+nav a:hover, nav a.active {
+  background: #1a4731;
+  border-bottom-color: #4caf50
+}
+
+.hero {
+  background: linear-gradient(rgba(26,71,49,0.9), rgba(13,92,46,0.9)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="%231a4731" width="100" height="100"/><text x="50" y="55" font-size="40" text-anchor="middle" fill="rgba(255,255,255,0.3)">📰</text></svg>') center/cover;
+  color: white;
+  padding: 60px 20px;
+  text-align: center
+}
+.hero h2 {font-size: 2rem; margin-bottom: 10px}
+.hero p {font-size: 1.1rem; opacity: 0.9}
+
+.container {padding: 40px 20px; max-width: 1100px; margin: 0 auto}
+
+.filter-bar {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px
+}
+.filter-btn {
+  background: white;
+  border: 2px solid #ddd;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 14px
+}
+.filter-btn:hover, .filter-btn.active {
+  background: #1a4731;
+  border-color: #1a4731;
+  color: white
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 25px
+}
+
+.news-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  transition: 0.3s
+}
+.news-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15)
+}
+.news-card .image {
+  height: 200px;
+  background: linear-gradient(135deg, #1a4731, #0d5c2e);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50px
+}
+.news-card .content {padding: 20px}
+.news-card .category {
+  display: inline-block;
+  background: #e8f5e9;
+  color: #1a4731;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 10px
+}
+.news-card h3 {
+  color: #1a4731;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  line-height: 1.4
+}
+.news-card .excerpt {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 15px
+}
+.news-card .meta {
+  display: flex;
+  justify-content: space-between;
+  color: #888;
+  font-size: 13px;
+  padding-top: 15px;
+  border-top: 1px solid #eee
+}
+.news-card .meta span {display: flex; align-items: center; gap: 5px}
+
+.featured-news {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  margin-bottom: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0
+}
+.featured-news .image {
+  background: linear-gradient(135deg, #1a4731, #0d5c2e);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+  min-height: 350px
+}
+.featured-news .content {padding: 35px}
+.featured-news h3 {
+  color: #1a4731;
+  font-size: 1.8rem;
+  margin-bottom: 15px
+}
+.featured-news .excerpt {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 20px
+}
+.featured-news .meta {
+  display: flex;
+  gap: 20px;
+  color: #888;
+  font-size: 14px
+}
+
+.announcements {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 40px
+}
+.announcements h3 {
+  color: #856404;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px
+}
+.announcements ul {
+  list-style: none;
+  padding: 0
+}
+.announcements li {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  color: #856404;
+  display: flex;
+  align-items: center;
+  gap: 10px
+}
+.announcements li:last-child {border-bottom: none}
+.announcements li::before {
+  content: "📌";
+  font-size: 14px
+}
+
+.events-section {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  margin-bottom: 40px
+}
+.events-section h3 {
+  color: #1a4731;
+  margin-bottom: 20px
+}
+.events-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px
+}
+.event-item {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  border-left: 4px solid #1a4731
+}
+.event-item .date {
+  font-size: 13px;
+  color: #1a4731;
+  font-weight: 600;
+  margin-bottom: 5px
+}
+.event-item h4 {color: #333; font-size: 15px}
+.event-item p {color: #666; font-size: 13px}
+
+footer {
+  background: #111;
+  color: white;
+  text-align: center;
+  padding: 25px
+}
+footer p {opacity: 0.7; font-size: 14px}
+
+@media (max-width: 768px) {
+  .featured-news {grid-template-columns: 1fr}
+  .featured-news .image {min-height: 200px}
+  .news-grid {grid-template-columns: 1fr}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo-container">
+    <img src="https://schoolsingh.com/senior-high-schools/images/nkawkaw-senior-high/nkawkaw-senior-high.png" alt="NKAWKAW SHS Logo" class="logo" onerror="this.style.display='none'">
+    <div>
+      <h1>Nkawkaw Senior High School</h1>
+      <p>Education for Service</p>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="news.html" class="active">News</a>
+  <a href="admissions.html">Admissions</a>
+  <a href="gallery.html">Gallery</a>
+  <a href="login.html">Student Login</a>
+  <a href="admin.html">Admin</a>
+</nav>
+
+<div style="padding:10px 20px;background:#f5f5f5">
+  <a href="index.html" style="color:#1a4731;text-decoration:none;font-size:14px">← Back</a>
+</div>
+
+<div class="hero">
+  <h2>School News & Updates</h2>
+  <p>Stay informed about what's happening at NKAWKAW SHS</p>
+</div>
+
+<div class="container">
+  <div class="announcements">
+    <h3>📢 Important Announcements</h3>
+    <ul>
+      <li>2026/2027 Academic Year registration opens - Check admissions page for details</li>
+      <li>Midterm examinations scheduled for Week 4 - All students to prepare</li>
+      <li>Sports Day 2026 - Annual inter-house athletics comes up this season</li>
+    </ul>
+  </div>
+
+  <div class="section-title" style="margin-bottom:25px">
+    <h2 style="color:#1a4731;font-size:1.5rem">📌 Latest News</h2>
+  </div>
+
+  <div class="featured-news">
+    <div class="image">🏆</div>
+    <div class="content">
+      <span class="category">Academic</span>
+      <h3>NKAWKAW SHS excels in 2025 WASSCE Results</h3>
+      <p class="excerpt">Our students have once again demonstrated outstanding performance in the 2025 West African Senior School Certificate Examination, with improved pass rates across all subjects.</p>
+      <div class="meta">
+        <span>📅 January 15, 2026</span>
+        <span>👤 Admin</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterNews('all', event)">All News</button>
+    <button class="filter-btn" onclick="filterNews('academic', event)">Academic</button>
+    <button class="filter-btn" onclick="filterNews('sports', event)">Sports</button>
+    <button class="filter-btn" onclick="filterNews('events', event)">Events</button>
+    <button class="filter-btn" onclick="filterNews('announcement', event)">Announcements</button>
+  </div>
+
+  <div class="news-grid">
+    <div class="news-card" data-category="academic">
+      <div class="image">🔬</div>
+      <div class="content">
+        <span class="category">Academic</span>
+        <h3>Science Fair 2026 Winners Announced</h3>
+        <p class="excerpt">Congratulations to all participants in this year's science fair. The innovative projects showcased student creativity.</p>
+        <div class="meta">
+          <span>📅 January 10, 2026</span>
+          <span>👁️ 245 views</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="news-card" data-category="sports">
+      <div class="image">⚽</div>
+      <div class="content">
+        <span class="category">Sports</span>
+        <h3>Inter-House Football Competition Results</h3>
+        <p class="excerpt">Akapoma House wins the 2026 inter-house football championship after an exciting final match.</p>
+        <div class="meta">
+          <span>📅 January 5, 2026</span>
+          <span>👁️ 189 views</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="news-card" data-category="events">
+      <div class="image">🎓</div>
+      <div class="content">
+        <span class="category">Events</span>
+        <h3>Class of 2025 Graduation Ceremony</h3>
+        <p class="excerpt">The graduating class of 2025 celebrated their completion in a colorful ceremony attended by parents and stakeholders.</p>
+        <div class="meta">
+          <span>📅 December 20, 2025</span>
+          <span>👁️ 312 views</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="news-card" data-category="events">
+      <div class="image">🎄</div>
+      <div class="content">
+        <span class="category">Events</span>
+        <h3>Christmas Carol Competition 2025</h3>
+        <p class="excerpt">Students showcased their musical talents in the annual Christmas carol competition.</p>
+        <div class="meta">
+          <span>📅 December 15, 2025</span>
+          <span>👁️ 156 views</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="news-card" data-category="academic">
+      <div class="image">📚</div>
+      <div class="content">
+        <span class="category">Academic</span>
+        <h3>Library Expansion Completed</h3>
+        <p class="excerpt">Our school library has been expanded with new books, study spaces, and digital resources.</p>
+        <div class="meta">
+          <span>📅 December 10, 2025</span>
+          <span>👁️ 98 views</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="news-card" data-category="sports">
+      <div class="image">🏃</div>
+      <div class="content">
+        <span class="category">Sports</span>
+        <h3>Regional Athletics Championship</h3>
+        <p class="excerpt">NKAWKAW SHS athletes compete in the Eastern Regional athletics championship.</p>
+        <div class="meta">
+          <span>📅 November 25, 2025</span>
+          <span>👁️ 134 views</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="news-card" data-category="announcement">
+      <div class="image">📝</div>
+      <div class="content">
+        <span class="category">Announcement</span>
+        <h3>Second Semester Registration</h3>
+        <p class="excerpt">Second semester registration begins for all continuing students. Please complete your registration on time.</p>
+        <div class="meta">
+          <span>📅 November 15, 2025</span>
+          <span>👁️ 267 views</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="news-card" data-category="events">
+      <div class="image">🎭</div>
+      <div class="content">
+        <span class="category">Events</span>
+        <h3>Cultural Day Celebration 2025</h3>
+        <p class="excerpt">Students celebrated Ghana's rich cultural heritage with traditional attire, food, and performances.</p>
+        <div class="meta">
+          <span>📅 November 1, 2025</span>
+          <span>👁️ 203 views</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="events-section">
+    <h3>📅 Upcoming Events</h3>
+    <div class="events-list">
+      <div class="event-item">
+        <div class="date">March 6, 2026</div>
+        <h4>Independence Day Celebration</h4>
+        <p>National holiday observance</p>
+      </div>
+      <div class="event-item">
+        <div class="date">March 15, 2026</div>
+        <h4>Midterm Examinations Begin</h4>
+        <p>All students</p>
+      </div>
+      <div class="event-item">
+        <div class="date">April 10, 2026</div>
+        <h4>Annual Sports Day</h4>
+        <p>Inter-house athletics</p>
+      </div>
+      <div class="event-item">
+        <div class="date">May 1, 2026</div>
+        <h4>May Day Celebration</h4>
+        <p>Workers' Day</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2026 Nkawkaw Senior High School. All rights reserved.</p>
+</footer>
+
+<script>
+const newsCards = document.querySelectorAll('.news-card');
+
+function filterNews(category, event) {
+  if (event) {
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+  
+  newsCards.forEach(card => {
+    if (category === 'all' || card.dataset.category === category) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+window.onload = function() {
+  const newsArticles = JSON.parse(localStorage.getItem('newsArticles') || '[]');
+  const newsGrid = document.querySelector('.news-grid');
+  
+  if (newsArticles.length > 0) {
+    let html = '';
+    newsArticles.forEach(article => {
+      const icon = article.category === 'academic' ? '📚' : 
+                   article.category === 'sports' ? '⚽' : 
+                   article.category === 'events' ? '🎓' : '📢';
+      
+      html += `<div class="news-card" data-category="${article.category}">
+        <div class="image">${icon}</div>
+        <div class="content">
+          <span class="category">${article.category.charAt(0).toUpperCase() + article.category.slice(1)}</span>
+          <h3>${article.title}</h3>
+          <p class="excerpt">${article.content.substring(0, 100)}...</p>
+          <div class="meta">
+            <span>📅 ${article.date}</span>
+            <span>👁️ ${Math.floor(Math.random() * 200) + 50} views</span>
+          </div>
+        </div>
+      </div>`;
+    });
+    
+    const featuredNews = document.querySelector('.featured-news');
+    if (featuredNews) {
+      featuredNews.style.display = 'none';
+    }
+    
+    newsGrid.innerHTML = html + newsGrid.innerHTML;
+  }
+};
+</script>
+</body>
+</html>

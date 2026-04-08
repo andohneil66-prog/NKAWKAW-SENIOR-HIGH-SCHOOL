@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Results - NKAWKAW SHS Student Portal</title>
+<style>
+* {box-sizing: border-box; margin: 0; padding: 0}
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f5f7fa;
+  min-height: 100vh
+}
+
+header {
+  background: linear-gradient(135deg, #1a4731 0%, #0d5c2e 100%);
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center
+}
+header .logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px
+}
+header .logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white
+}
+header h1 {font-size: 1.5rem}
+header .user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px
+}
+header .user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
+  color: #1a4731;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold
+}
+header .logout-btn {
+  background: rgba(255,255,255,0.2);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  border: none;
+  cursor: pointer
+}
+
+nav {
+  background: #111;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap
+}
+nav a {
+  color: white;
+  padding: 14px 20px;
+  text-decoration: none;
+  transition: 0.3s
+}
+nav a:hover, nav a.active {
+  background: #1a4731
+}
+
+.container {padding: 30px 20px; max-width: 1100px; margin: 0 auto}
+
+.page-title {
+  color: #1a4731;
+  margin-bottom: 25px;
+  font-size: 1.8rem
+}
+
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px
+}
+.summary-card {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08)
+}
+.summary-card .value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #1a4731
+}
+.summary-card .label {
+  color: #666;
+  font-size: 14px;
+  margin-top: 5px
+}
+
+.results-table {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08)
+}
+.results-table table {
+  width: 100%;
+  border-collapse: collapse
+}
+.results-table th, .results-table td {
+  padding: 15px 20px;
+  text-align: left;
+  border-bottom: 1px solid #eee
+}
+.results-table th {
+  background: #1a4731;
+  color: white;
+  font-weight: 600
+}
+.results-table tr:hover {background: #f8f9fa}
+
+.grade {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 14px
+}
+.grade-a {background: #e8f5e9; color: #2e7d32}
+.grade-b {background: #e3f2fd; color: #1565c0}
+.grade-c {background: #fff3e0; color: #e65100}
+.grade-d {background: #ffebee; color: #c62828}
+
+.subject-score {
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 5px
+}
+.subject-score .fill {
+  height: 100%;
+  border-radius: 4px
+}
+
+footer {
+  background: #111;
+  color: white;
+  text-align: center;
+  padding: 20px
+}
+footer p {opacity: 0.7; font-size: 14px}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo-container">
+    <img src="https://schoolsingh.com/senior-high-schools/images/nkawkaw-senior-high/nkawkaw-senior-high.png" alt="NKAWKAW SHS Logo" class="logo" onerror="this.style.display='none'">
+    <h1>NKAWKAW SHS Student Portal</h1>
+  </div>
+  <div class="user-info">
+    <span id="welcomeUser">Welcome, Student</span>
+    <div class="user-avatar" id="userAvatar">S</div>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+</header>
+
+<nav>
+  <a href="dashboard.html">Dashboard</a>
+  <a href="exams.html">📝 Exams</a>
+  <a href="results.html" class="active">📊 Results</a>
+  <a href="index.html">Home</a>
+  <a href="login.html">Login</a>
+</nav>
+
+<div style="padding:10px 20px;background:#f5f5f5">
+  <a href="dashboard.html" style="color:#1a4731;text-decoration:none;font-size:14px">← Back</a>
+</div>
+
+<div class="container">
+  <h2 class="page-title">📊 My Results</h2>
+  
+  <div class="summary-cards">
+    <div class="summary-card">
+      <div class="value">85%</div>
+      <div class="label">Overall Average</div>
+    </div>
+    <div class="summary-card">
+      <div class="value">4/5</div>
+      <div class="label">Subjects Passed</div>
+    </div>
+    <div class="summary-card">
+      <div class="value">#3</div>
+      <div class="label">Class Rank</div>
+    </div>
+    <div class="summary-card">
+      <div class="value">12</div>
+      <div class="label">Total Exams</div>
+    </div>
+  </div>
+  
+  <div class="results-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Subject</th>
+          <th>Score</th>
+          <th>Grade</th>
+          <th>Remark</th>
+          <th>Trend</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Mathematics</td>
+          <td>92/100</td>
+          <td><span class="grade grade-a">A</span></td>
+          <td>Excellent</td>
+          <td>
+            <div class="subject-score"><div class="fill" style="width:92%;background:#2e7d32"></div></div>
+          </td>
+        </tr>
+        <tr>
+          <td>English</td>
+          <td>85/100</td>
+          <td><span class="grade grade-b">B</span></td>
+          <td>Very Good</td>
+          <td>
+            <div class="subject-score"><div class="fill" style="width:85%;background:#1565c0"></div></div>
+          </td>
+        </tr>
+        <tr>
+          <td>Physics</td>
+          <td>88/100</td>
+          <td><span class="grade grade-b">B</span></td>
+          <td>Very Good</td>
+          <td>
+            <div class="subject-score"><div class="fill" style="width:88%;background:#1565c0"></div></div>
+          </td>
+        </tr>
+        <tr>
+          <td>Chemistry</td>
+          <td>78/100</td>
+          <td><span class="grade grade-c">C</span></td>
+          <td>Good</td>
+          <td>
+            <div class="subject-score"><div class="fill" style="width:78%;background:#e65100"></div></div>
+          </td>
+        </tr>
+        <tr>
+          <td>Biology</td>
+          <td>90/100</td>
+          <td><span class="grade grade-a">A</span></td>
+          <td>Excellent</td>
+          <td>
+            <div class="subject-score"><div class="fill" style="width:90%;background:#2e7d32"></div></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2026 Nkawkaw Senior High School. All rights reserved.</p>
+</footer>
+
+<script>
+function logout() {
+  if (confirm('Logout of student portal?')) {
+    sessionStorage.removeItem('isLoggedIn');
+    sessionStorage.removeItem('currentUser');
+    location.href = 'login.html';
+  }
+}
+
+window.onload = function() {
+  const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+  const currentUser = sessionStorage.getItem('currentUser');
+  
+  if (!isLoggedIn || isLoggedIn !== 'true') {
+    location.href = 'login.html';
+    return;
+  }
+  
+  if (currentUser) {
+    document.getElementById('welcomeUser').textContent = 'Welcome, ' + currentUser;
+    document.getElementById('userAvatar').textContent = currentUser.charAt(0).toUpperCase();
+  }
+  
+  loadResults();
+};
+
+function loadResults() {
+  const results = JSON.parse(localStorage.getItem('uploadedResults') || '[]');
+  const tbody = document.querySelector('.results-table tbody');
+  
+  if (results.length > 0) {
+    let html = '';
+    results.forEach(r => {
+      const score = Math.floor(Math.random() * 30) + 70;
+      let grade, remark, color;
+      if (score >= 90) { grade = 'A'; remark = 'Excellent'; color = '#2e7d32'; }
+      else if (score >= 80) { grade = 'B'; remark = 'Very Good'; color = '#1565c0'; }
+      else if (score >= 70) { grade = 'C'; remark = 'Good'; color = '#e65100'; }
+      else { grade = 'D'; remark = 'Pass'; color = '#c62828'; }
+      
+      html += `<tr>
+        <td>${r.subject}</td>
+        <td>${score}/100</td>
+        <td><span class="grade" style="background:${color}20;color:${color}">${grade}</span></td>
+        <td>${remark}</td>
+        <td><div class="subject-score"><div class="fill" style="width:${score}%;background:${color}"></div></div></td>
+      </tr>`;
+    });
+    tbody.innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>

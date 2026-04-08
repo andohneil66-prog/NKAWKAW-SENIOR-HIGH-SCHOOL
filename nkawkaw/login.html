@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' https://schoolsingh.com 'unsafe-inline'; img-src 'self' data: https:;">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<title>Student Login - NKAWKAW SHS</title>
+<style>
+* {box-sizing: border-box}
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #1a4731 0%, #0d5c2e 50%, #1a4731 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 20px
+}
+.login-container {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  width: 100%;
+  max-width: 400px
+}
+.login-header {
+  text-align: center;
+  margin-bottom: 30px
+}
+.login-header .logo {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 15px;
+  border: 3px solid #1a4731
+}
+.login-header h2 {
+  color: #1a4731;
+  margin: 0 0 8px 0;
+  font-size: 28px
+}
+.login-header p {
+  color: #666;
+  margin: 0
+}
+.form-group {
+  margin-bottom: 20px;
+  position: relative
+}
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  color: #333;
+  font-weight: 500
+}
+.form-group input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s, box-shadow 0.3s
+}
+.form-group input:focus {
+  outline: none;
+  border-color: #1a4731;
+  box-shadow: 0 0 0 4px rgba(26,71,49,0.15)
+}
+.form-group input.error {
+  border-color: #e74c3c
+}
+.form-group .error-msg {
+  color: #e74c3c;
+  font-size: 13px;
+  margin-top: 4px;
+  display: none
+}
+.form-group .error-msg.show {
+  display: block
+}
+.password-wrapper {
+  position: relative
+}
+.password-toggle {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+  font-size: 18px;
+  background: none;
+  border: none;
+  padding: 4px
+}
+.password-toggle:hover {
+  color: #1a4731
+}
+.login-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(45deg, #1a4731, #0d5c2e);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s
+}
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(26,71,49,0.35)
+}
+.login-btn:active {
+  transform: translateY(0)
+}
+.login-btn:disabled {
+  background: #aaa;
+  cursor: not-allowed;
+  transform: none
+}
+.login-btn .spinner {
+  display: none;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto
+}
+.login-btn.loading .spinner {
+  display: block
+}
+.login-btn.loading span {
+  display: none
+}
+@keyframes spin {
+  to {transform: rotate(360deg)}
+}
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+  font-size: 14px
+}
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer
+}
+.remember-me input {
+  width: 18px;
+  height: 18px;
+  accent-color: #1a4731
+}
+.forgot-link {
+  color: #1a4731;
+  text-decoration: none;
+  font-weight: 500
+}
+.forgot-link:hover {
+  text-decoration: underline
+}
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 24px 0
+}
+.divider::before, .divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #ddd
+}
+.divider span {
+  padding: 0 12px;
+  color: #888;
+  font-size: 13px
+}
+.back-home {
+  display: block;
+  text-align: center;
+  color: #666;
+  text-decoration: none;
+  font-size: 14px
+}
+.back-home:hover {
+  color: #1a4731
+}
+#msg {
+  padding: 14px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  text-align: center;
+  display: none
+}
+#msg.error {
+  display: block;
+  background: #fee;
+  color: #c00;
+  border: 1px solid #fcc
+}
+#msg.success {
+  display: block;
+  background: #efe;
+  color: #060;
+  border: 1px solid #cfc
+}
+</style>
+</head>
+<body>
+<div style="position:absolute;top:20px;left:20px">
+  <a href="index.html" style="color:#1a4731;text-decoration:none;font-size:14px">← Back to Home</a>
+</div>
+
+<div class="login-container">
+  <div class="login-header">
+    <img src="https://schoolsingh.com/senior-high-schools/images/nkawkaw-senior-high/nkawkaw-senior-high.png" alt="NKAWKAW SHS Logo" class="logo" onerror="this.style.display='none'">
+    <h2>NKAWKAW SHS</h2>
+    <p>Student Portal Login</p>
+  </div>
+  
+  <div id="msg"></div>
+  
+  <form id="loginForm" onsubmit="handleLogin(); return false;">
+    <div class="form-group">
+      <label for="username">Student ID / Username</label>
+      <input type="text" id="username" placeholder="Enter your student ID" required autocomplete="username">
+      <div class="error-msg" id="userError">Please enter your username</div>
+    </div>
+    
+    <div class="form-group">
+      <label for="password">Password</label>
+      <div class="password-wrapper">
+        <input type="password" id="password" placeholder="Enter your password" required autocomplete="current-password">
+        <button type="button" class="password-toggle" onclick="togglePassword()">👁️</button>
+      </div>
+      <div class="error-msg" id="passError">Please enter your password</div>
+    </div>
+    
+    <div class="form-options">
+      <label class="remember-me">
+        <input type="checkbox" id="remember">
+        <span>Remember me</span>
+      </label>
+      <a href="#" class="forgot-link">Forgot password?</a>
+    </div>
+    
+    <button type="submit" class="login-btn" id="loginBtn">
+      <span>Sign In</span>
+      <div class="spinner"></div>
+    </button>
+  </form>
+  
+  <div class="divider"><span>SECURE LOGIN</span></div>
+  
+  <p style="text-align:center;margin-bottom:15px">
+    New student? <a href="register.html" style="color:#1a4731;font-weight:600">Register here</a>
+  </p>
+  
+  <a href="index.html" class="back-home">← Back to Home</a>
+</div>
+
+<script>
+document.getElementById('username').addEventListener('input', function() {
+  this.classList.remove('error');
+  document.getElementById('userError').style.display = 'none';
+});
+
+document.getElementById('password').addEventListener('input', function() {
+  this.classList.remove('error');
+  document.getElementById('passError').style.display = 'none';
+});
+
+function togglePassword() {
+  const passwordField = document.getElementById('password');
+  const toggleBtn = document.querySelector('.password-toggle');
+  if (passwordField.type === 'password') {
+    passwordField.type = 'text';
+    toggleBtn.textContent = '🙈';
+  } else {
+    passwordField.type = 'password';
+    toggleBtn.textContent = '👁️';
+  }
+}
+
+function handleLogin() {
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+  const loginBtn = document.getElementById('loginBtn');
+  
+  if (!username) {
+    document.getElementById('username').classList.add('error');
+    document.getElementById('userError').style.display = 'block';
+    return;
+  }
+  
+  if (!password) {
+    document.getElementById('password').classList.add('error');
+    document.getElementById('passError').style.display = 'block';
+    return;
+  }
+  
+  loginBtn.innerHTML = '<span>Signing in...</span><div class="spinner"></div>';
+  loginBtn.classList.add('loading');
+  
+  fetch('api/index.php?action=login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      sessionStorage.setItem('currentUser', data.user.name);
+      sessionStorage.setItem('isLoggedIn', 'true');
+      sessionStorage.setItem('currentStudentId', data.user.id);
+      sessionStorage.setItem('currentStudentClass', data.user.class);
+      sessionStorage.setItem('currentStudentTrack', data.user.track);
+      sessionStorage.setItem('currentStudentEmail', data.user.email);
+      
+      if (document.getElementById('remember').checked) {
+        localStorage.setItem('savedUsername', username);
+        localStorage.setItem('savedPassword', password);
+      }
+      
+      window.location.href = 'dashboard.html';
+    } else {
+      throw new Error(data.error || 'Login failed');
+    }
+  })
+  .catch(err => {
+    console.log('API not available, using localStorage fallback');
+    const students = JSON.parse(localStorage.getItem('registeredStudents') || '[]');
+    const student = students.find(s => 
+      (s.id.toLowerCase() === username.toLowerCase() || s.email.toLowerCase() === username.toLowerCase()) && s.password === password
+    );
+    
+    if (username.toLowerCase() === 'student' && password === '1234') {
+      sessionStorage.setItem('currentUser', 'student');
+      sessionStorage.setItem('isLoggedIn', 'true');
+      sessionStorage.setItem('currentStudentId', 'STU-DEMO');
+      sessionStorage.setItem('currentStudentClass', 'BS2');
+      sessionStorage.setItem('currentStudentTrack', 'General Science');
+      sessionStorage.setItem('currentStudentEmail', 'demo@nkawkaw.edu.gh');
+      window.location.href = 'dashboard.html';
+    } else if (student) {
+      sessionStorage.setItem('currentUser', student.name);
+      sessionStorage.setItem('isLoggedIn', 'true');
+      sessionStorage.setItem('currentStudentId', student.id);
+      sessionStorage.setItem('currentStudentClass', student.class);
+      sessionStorage.setItem('currentStudentTrack', student.track);
+      sessionStorage.setItem('currentStudentEmail', student.email);
+      window.location.href = 'dashboard.html';
+    } else {
+      loginBtn.innerHTML = '<span>Sign In</span>';
+      loginBtn.classList.remove('loading');
+      document.getElementById('msg').textContent = 'Invalid student ID, email, or password';
+      document.getElementById('msg').className = 'error';
+      document.getElementById('msg').style.display = 'block';
+      document.getElementById('password').value = '';
+    }
+  });
+}
+
+const savedUser = localStorage.getItem('savedUsername');
+const savedPass = localStorage.getItem('savedPassword');
+if (savedUser) {
+  document.getElementById('username').value = savedUser;
+  if (savedPass) {
+    document.getElementById('password').value = savedPass;
+  }
+  document.getElementById('remember').checked = true;
+}
+(function(){
+  const sanitize = s => String(s).replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/on\w+=/gi,'');
+  document.getElementById('loginForm').addEventListener('submit', e => {
+    document.getElementById('username').value = sanitize(document.getElementById('username').value);
+  });
+})();
+</script>
+</body>
+</html>

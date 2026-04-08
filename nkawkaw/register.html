@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Registration - NKAWKAW SHS</title>
+<style>
+* {box-sizing: border-box; margin: 0; padding: 0}
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #1a4731 0%, #0d5c2e 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px
+}
+.register-container {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  width: 100%;
+  max-width: 500px
+}
+.register-header {
+  text-align: center;
+  margin-bottom: 30px
+}
+.register-header img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+  border: 3px solid #1a4731
+}
+.register-header h2 {
+  color: #1a4731;
+  margin: 0 0 8px 0;
+  font-size: 24px
+}
+.register-header p {
+  color: #666;
+  margin: 0
+}
+.form-group {
+  margin-bottom: 20px
+}
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  color: #333;
+  font-weight: 500
+}
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border-color 0.3s
+}
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #1a4731
+}
+.form-group .hint {
+  font-size: 12px;
+  color: #888;
+  margin-top: 4px
+}
+.register-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(45deg, #1a4731, #0d5c2e);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s
+}
+.register-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(26,71,49,0.35)
+}
+.register-btn:disabled {
+  background: #aaa;
+  cursor: not-allowed
+}
+.login-link {
+  text-align: center;
+  margin-top: 20px;
+  color: #666
+}
+.login-link a {
+  color: #1a4731;
+  font-weight: 500;
+  text-decoration: none
+}
+.login-link a:hover {
+  text-decoration: underline
+}
+#msg {
+  padding: 14px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  text-align: center;
+  display: none
+}
+#msg.error {
+  display: block;
+  background: #fee;
+  color: #c00;
+  border: 1px solid #fcc
+}
+#msg.success {
+  display: block;
+  background: #efe;
+  color: #060;
+  border: 1px solid #cfc
+}
+.success-details {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+  text-align: center
+}
+.success-details h3 {
+  color: #1a4731;
+  margin-bottom: 15px
+}
+.success-details .detail {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee
+}
+.success-details .detail:last-child {
+  border-bottom: none
+}
+.success-details .detail span:first-child {
+  color: #666
+}
+.success-details .detail span:last-child {
+  font-weight: 600;
+  color: #1a4731
+}
+</style>
+</head>
+<body>
+<div class="register-container">
+  <div class="register-header">
+    <img src="https://schoolsingh.com/senior-high-schools/images/nkawkaw-senior-high/nkawkaw-senior-high.png" alt="NKAWKAW SHS Logo" onerror="this.style.display='none'">
+    <h2>Student Registration</h2>
+    <p>Join NKAWKAW SHS Portal</p>
+  </div>
+  
+  <div id="msg"></div>
+  
+  <div id="registerForm">
+    <div class="form-group">
+      <label for="firstName">First Name *</label>
+      <input type="text" id="firstName" placeholder="Enter first name" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="lastName">Last Name *</label>
+      <input type="text" id="lastName" placeholder="Enter last name" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="email">Email Address *</label>
+      <input type="email" id="email" placeholder="Enter email address" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="phone">Phone Number *</label>
+      <input type="tel" id="phone" placeholder="Enter phone number" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="class">Class *</label>
+      <select id="class" required>
+        <option value="">Select Class</option>
+        <option value="BS1">BS1 (Science Year 1)</option>
+        <option value="BS2">BS2 (Science Year 2)</option>
+        <option value="BS3">BS3 (Science Year 3)</option>
+        <option value="AS1">AS1 (Arts Year 1)</option>
+        <option value="AS2">AS2 (Arts Year 2)</option>
+        <option value="AS3">AS3 (Arts Year 3)</option>
+        <option value="CS1">CS1 (Business Year 1)</option>
+        <option value="CS2">CS2 (Business Year 2)</option>
+        <option value="CS3">CS3 (Business Year 3)</option>
+        <option value="HS1">HS1 (Home Econ Year 1)</option>
+        <option value="HS2">HS2 (Home Econ Year 2)</option>
+        <option value="HS3">HS3 (Home Econ Year 3)</option>
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label for="track">Track *</label>
+      <select id="track" required>
+        <option value="">Select Track</option>
+        <option value="General Science">General Science</option>
+        <option value="Business">Business</option>
+        <option value="General Arts">General Arts</option>
+        <option value="Home Economics">Home Economics</option>
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label for="password">Create Password *</label>
+      <input type="password" id="password" placeholder="Create a password" required minlength="4">
+      <div class="hint">Minimum 4 characters</div>
+    </div>
+    
+    <div class="form-group">
+      <label for="confirmPassword">Confirm Password *</label>
+      <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+    </div>
+    
+    <button type="button" class="register-btn" onclick="registerStudent()">Register</button>
+  </div>
+  
+  <div class="login-link">
+    Already have an account? <a href="login.html">Login here</a>
+  </div>
+</div>
+
+<script>
+function registerStudent() {
+  const firstName = document.getElementById('firstName').value.trim();
+  const lastName = document.getElementById('lastName').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const studentClass = document.getElementById('class').value;
+  const track = document.getElementById('track').value;
+  const password = document.getElementById('password').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
+  const msg = document.getElementById('msg');
+  
+  if (!firstName || !lastName || !email || !phone || !studentClass || !track || !password) {
+    msg.textContent = 'Please fill in all required fields';
+    msg.className = 'error';
+    return;
+  }
+  
+  if (password !== confirmPassword) {
+    msg.textContent = 'Passwords do not match';
+    msg.className = 'error';
+    return;
+  }
+  
+  if (password.length < 4) {
+    msg.textContent = 'Password must be at least 4 characters';
+    msg.className = 'error';
+    return;
+  }
+  
+  fetch('api/index.php?action=register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ firstName, lastName, email, phone, class: studentClass, track, password })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      showSuccess(data.student.id, firstName + ' ' + lastName, studentClass, password);
+    } else {
+      throw new Error(data.error);
+    }
+  })
+  .catch(err => {
+    console.log('API not available, using localStorage fallback');
+    const students = JSON.parse(localStorage.getItem('registeredStudents') || '[]');
+    
+    const existingStudent = students.find(s => s.email === email);
+    if (existingStudent) {
+      msg.textContent = 'Email already registered';
+      msg.className = 'error';
+      return;
+    }
+    
+    const studentId = 'STU-' + String(students.length + 1).padStart(3, '0');
+    
+    const newStudent = {
+      id: studentId,
+      firstName: firstName,
+      lastName: lastName,
+      name: firstName + ' ' + lastName,
+      email: email,
+      phone: phone,
+      class: studentClass,
+      track: track,
+      password: password,
+      registeredDate: new Date().toISOString()
+    };
+    
+    students.push(newStudent);
+    localStorage.setItem('registeredStudents', JSON.stringify(students));
+    showSuccess(studentId, firstName + ' ' + lastName, studentClass, password);
+  });
+}
+
+function showSuccess(studentId, name, studentClass, password) {
+  document.getElementById('registerForm').style.display = 'none';
+  document.getElementById('msg').style.display = 'none';
+  
+  const successHtml = `
+    <div class="success-details">
+      <h3>✅ Registration Successful!</h3>
+      <div class="detail">
+        <span>Student ID</span>
+        <span>${studentId}</span>
+      </div>
+      <div class="detail">
+        <span>Name</span>
+        <span>${name}</span>
+      </div>
+      <div class="detail">
+        <span>Class</span>
+        <span>${studentClass}</span>
+      </div>
+      <div class="detail">
+        <span>Password</span>
+        <span>${'*'.repeat(password.length)}</span>
+      </div>
+      <p style="margin-top:15px;color:#666;font-size:14px">Save your Student ID and Password to login.</p>
+    </div>
+  `;
+  
+  document.querySelector('.register-container').innerHTML = `
+    <div class="register-header">
+      <img src="https://schoolsingh.com/senior-high-schools/images/nkawkaw-senior-high/nkawkaw-senior-high.png" alt="NKAWKAW SHS Logo" onerror="this.style.display='none'" style="width:80px;height:80px;border-radius:50%;margin-bottom:15px;border:3px solid #1a4731">
+      <h2>Registration Complete</h2>
+      <p>Welcome to NKAWKAW SHS</p>
+    </div>
+    ${successHtml}
+    <div class="login-link">
+      <a href="login.html">Go to Login</a>
+    </div>
+  `;
+}
+</script>
+</body>
+</html>

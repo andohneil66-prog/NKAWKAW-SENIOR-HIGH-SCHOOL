@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Assistant - NKAWKAW SHS</title>
+<style>
+* {box-sizing: border-box; margin: 0; padding: 0}
+body {font-family: 'Segoe UI', Arial, sans-serif}
+
+.chat-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #1a4731 0%, #0d5c2e 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  z-index: 9999;
+  font-size: 28px;
+  border: none;
+  color: white;
+  transition: transform 0.3s
+}
+.chat-toggle:hover {
+  transform: scale(1.1)
+}
+
+.chat-window {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 380px;
+  height: 500px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  display: none;
+  flex-direction: column;
+  z-index: 9999;
+  overflow: hidden
+}
+.chat-window.active {
+  display: flex
+}
+
+.chat-header {
+  background: linear-gradient(135deg, #1a4731 0%, #0d5c2e 100%);
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px
+}
+.chat-header .ai-avatar {
+  width: 40px;
+  height: 40px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px
+}
+.chat-header .ai-info h3 {
+  font-size: 16px;
+  margin-bottom: 2px
+}
+.chat-header .ai-info p {
+  font-size: 12px;
+  opacity: 0.8
+}
+.chat-header .close-btn {
+  margin-left: auto;
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background: #f8f9fa
+}
+
+.message {
+  margin-bottom: 15px;
+  max: 85%
+}
+.message.user {
+  margin-left: auto
+}
+.message .bubble {
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.5
+}
+.message.bot .bubble {
+  background: white;
+  border: 1px solid #eee;
+  border-bottom-left-radius: 4px;
+  color: #333
+}
+.message.user .bubble {
+  background: linear-gradient(135deg, #1a4731 0%, #0d5c2e 100%);
+  color: white;
+  border-bottom-right-radius: 4px
+}
+.message .time {
+  font-size: 11px;
+  color: #888;
+  margin-top: 5px
+}
+.message.user .time {
+  text-align: right
+}
+
+.chat-input {
+  padding: 15px;
+  border-top: 1px solid #eee;
+  display: flex;
+  gap: 10px;
+  background: white
+}
+.chat-input input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 2px solid #ddd;
+  border-radius: 24px;
+  font-size: 14px;
+  outline: none
+}
+.chat-input input:focus {
+  border-color: #1a4731
+}
+.chat-input button {
+  background: #1a4731;
+  color: white;
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  transition: 0.2s
+}
+.chat-input button:hover {
+  background: #0d5c2e
+}
+
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 20px 15px;
+  background: #f8f9fa
+}
+.quick-actions button {
+  background: white;
+  border: 1px solid #1a4731;
+  color: #1a4731;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.2s
+}
+.quick-actions button:hover {
+  background: #1a4731;
+  color: white
+}
+
+@media (max-width: 450px) {
+  .chat-window {
+    width: calc(100% - 40px);
+    right: 20px;
+    left: 20px;
+    height: 60vh
+  }
+}
+</style>
+</head>
+<body>
+
+<button class="chat-toggle" onclick="toggleChat()">🤖</button>
+
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div class="ai-avatar">🎓</div>
+    <div class="ai-info">
+      <h3>NKAWKAW SHS Assistant</h3>
+      <p>Online</p>
+    </div>
+    <button class="close-btn" onclick="toggleChat()">×</button>
+  </div>
+  
+  <div class="quick-actions">
+    <button onclick="sendQuickMessage('How do I apply for admission?')">📝 Admissions</button>
+    <button onclick="sendQuickMessage('What tracks are available?')">📚 Tracks</button>
+    <button onclick="sendQuickMessage('How to check my results?')">📊 Results</button>
+    <button onclick="sendQuickMessage('Contact information')">📞 Contact</button>
+  </div>
+  
+  <div class="chat-messages" id="chatMessages">
+    <div class="message bot">
+      <div class="bubble">Hello! I'm the NKAWKAW SHS AI Assistant. How can I help you today?</div>
+      <div class="time">Just now</div>
+    </div>
+  </div>
+  
+  <div class="chat-input">
+    <input type="text" id="chatInput" placeholder="Type your message..." onkeypress="handleEnter(event)">
+    <button onclick="sendMessage()">➤</button>
+  </div>
+</div>
+
+<script>
+const responses = {
+  'admission': 'To apply for admission to NKAWKAW SHS:\n\n1. Click on "Admissions" in the menu\n2. Fill out the online application form\n3. Submit required documents (BECE results, birth certificate, photos)\n4. Attend the admissions test\n5. Check your admission status\n\nFor more details, visit our Admissions page.',
+  
+  'tracks': 'NKAWKAW SHS offers the following tracks:\n\n🔬 General Science - Biology, Chemistry, Physics\n\n💼 Business - Accounting, Economics, Business Math\n\n🎭 General Arts - Literature, History, Government\n\n🏠 Home Economics - Food & Nutrition, Management\n\nChoose the track that best fits your interests and career goals!',
+  
+  'results': 'To check your results:\n\n1. Login to the Student Portal\n2. Go to the "Results" page\n3. View your grades and scores\n\nResults are uploaded by teachers after each examination.',
+  
+  'contact': '📍 Nkawkaw Senior High School\nNkawkaw, Eastern Region, Ghana\n\n📞 General: +233 XX XXX XXXX\n📞 Admissions: +233 XX XXX XXXX\n\n✉️ info@nkawkawshs.edu.gh\n\nOffice Hours: Mon-Fri 7:30 AM - 3:30 PM',
+  
+  'login': 'To login to the Student Portal:\n\n1. Go to Student Login\n2. Enter your Student ID or Email\n3. Enter your Password\n4. Click "Sign In"\n\nUse the credentials provided during registration.',
+  
+  'register': 'To register as a new student:\n\n1. Click "Register here" on the login page\n2. Fill in your details (name, email, phone, class, track)\n3. Create a password\n4. Submit registration\n\nYou will receive your Student ID after successful registration.',
+  
+  'hello': 'Hello! 👋 How can I help you today? You can ask me about:\n- Admissions\n- Tracks/Courses\n- Results\n- Contact Info\n- Login/Registration',
+  
+  'default': 'Thank you for your message! For more specific assistance, please contact:\n\n📞 School Office: +233 XX XXX XXXX\n📧 info@nkawkawshs.edu.gh\n\nOr visit our Admissions or Contact pages for more information.'
+};
+
+function toggleChat() {
+  const chatWindow = document.getElementById('chatWindow');
+  chatWindow.classList.toggle('active');
+}
+
+function handleEnter(e) {
+  if (e.key === 'Enter') {
+    sendMessage();
+  }
+}
+
+function sendQuickMessage(message) {
+  addMessage(message, 'user');
+  setTimeout(() => processMessage(message), 500);
+}
+
+function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const message = input.value.trim();
+  if (!message) return;
+  
+  addMessage(message, 'user');
+  input.value = '';
+  
+  setTimeout(() => processMessage(message), 500);
+}
+
+function addMessage(text, type) {
+  const messages = document.getElementById('chatMessages');
+  const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  
+  const messageDiv = document.createElement('div');
+  messageDiv.className = `message ${type}`;
+  messageDiv.innerHTML = `
+    <div class="bubble">${text.replace(/\n/g, '<br>')}</div>
+    <div class="time">${time}</div>
+  `;
+  
+  messages.appendChild(messageDiv);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function processMessage(message) {
+  const lowerMessage = message.toLowerCase();
+  let response = responses.default;
+  
+  if (lowerMessage.includes('admission') || lowerMessage.includes('apply') || lowerMessage.includes('register')) {
+    response = responses.admission;
+  } else if (lowerMessage.includes('track') || lowerMessage.includes('course') || lowerMessage.includes('science') || lowerMessage.includes('arts') || lowerMessage.includes('business')) {
+    response = responses.tracks;
+  } else if (lowerMessage.includes('result') || lowerMessage.includes('grade') || lowerMessage.includes('score')) {
+    response = responses.results;
+  } else if (lowerMessage.includes('contact') || lowerMessage.includes('phone') || lowerMessage.includes('email') || lowerMessage.includes('address') || lowerMessage.includes('location')) {
+    response = responses.contact;
+  } else if (lowerMessage.includes('login') || lowerMessage.includes('password')) {
+    response = responses.login;
+  } else if (lowerMessage.includes('register') || lowerMessage.includes('sign up') || lowerMessage.includes('new student')) {
+    response = responses.register;
+  } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+    response = responses.hello;
+  }
+  
+  addMessage(response, 'bot');
+}
+</script>
+
+</body>
+</html>

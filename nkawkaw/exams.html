@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exams - NKAWKAW SHS Student Portal</title>
+<style>
+* {box-sizing: border-box; margin: 0; padding: 0}
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f5f7fa;
+  min-height: 100vh
+}
+
+header {
+  background: linear-gradient(135deg, #1a4731 0%, #0d5c2e 100%);
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center
+}
+header .logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px
+}
+header .logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white
+}
+header h1 {font-size: 1.5rem}
+header .user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px
+}
+header .user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
+  color: #1a4731;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold
+}
+header .logout-btn {
+  background: rgba(255,255,255,0.2);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  border: none;
+  cursor: pointer
+}
+
+nav {
+  background: #111;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap
+}
+nav a {
+  color: white;
+  padding: 14px 20px;
+  text-decoration: none;
+  transition: 0.3s
+}
+nav a:hover, nav a.active {
+  background: #1a4731
+}
+
+.container {padding: 30px 20px; max-width: 1100px; margin: 0 auto}
+
+.page-title {
+  color: #1a4731;
+  margin-bottom: 25px;
+  font-size: 1.8rem
+}
+
+.exam-card {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08)
+}
+.exam-card h3 {
+  color: #1a4731;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px
+}
+.exam-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px
+}
+.exam-info div {
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 8px
+}
+.exam-info .label {
+  font-size: 12px;
+  color: #666;
+  display: block;
+  margin-bottom: 4px
+}
+.exam-info .value {
+  font-weight: 600;
+  color: #333
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500
+}
+.status-badge.upcoming {background: #e3f2fd; color: #1565c0}
+.status-badge.active {background: #e8f5e9; color: #2e7d32}
+.status-badge.completed {background: #f5f5f5; color: #666}
+
+.start-btn {
+  display: inline-block;
+  background: #1a4731;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  margin-top: 15px;
+  cursor: pointer;
+  border: none
+}
+.start-btn:hover {background: #0d5c2e}
+.start-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed
+}
+
+.exam-question {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 20px
+}
+.exam-question h4 {
+  color: #1a4731;
+  margin-bottom: 15px
+}
+.exam-question p {
+  color: #333;
+  margin-bottom: 15px
+}
+.options label {
+  display: block;
+  padding: 12px;
+  margin: 8px 0;
+  background: #f8f9fa;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s
+}
+.options label:hover {background: #e8f5e9}
+.options input:checked + span {
+  font-weight: 600;
+  color: #1a4731
+}
+
+.timer {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  background: #1a4731;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2)
+}
+
+.submit-section {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  text-align: center;
+  margin-top: 30px
+}
+
+footer {
+  background: #111;
+  color: white;
+  text-align: center;
+  padding: 20px
+}
+footer p {opacity: 0.7; font-size: 14px}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo-container">
+    <img src="https://schoolsingh.com/senior-high-schools/images/nkawkaw-senior-high/nkawkaw-senior-high.png" alt="NKAWKAW SHS Logo" class="logo" onerror="this.style.display='none'">
+    <h1>NKAWKAW SHS Student Portal</h1>
+  </div>
+  <div class="user-info">
+    <span id="welcomeUser">Welcome, Student</span>
+    <div class="user-avatar" id="userAvatar">S</div>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+</header>
+
+<nav>
+  <a href="dashboard.html">Dashboard</a>
+  <a href="exams.html" class="active">📝 Exams</a>
+  <a href="results.html">📊 Results</a>
+  <a href="index.html">Home</a>
+  <a href="login.html">Login</a>
+</nav>
+
+<div style="padding:10px 20px;background:#f5f5f5">
+  <a href="dashboard.html" style="color:#1a4731;text-decoration:none;font-size:14px">← Back</a>
+</div>
+
+<div class="container">
+  <h2 class="page-title">📝 Available Exams</h2>
+  
+  <div id="examList">
+    <div class="exam-card">
+      <h3>📚 Mathematics - Midterm Examination</h3>
+      <div class="exam-info">
+        <div>
+          <span class="label">Subject</span>
+          <span class="value">Mathematics</span>
+        </div>
+        <div>
+          <span class="label">Date</span>
+          <span class="value">March 15, 2026</span>
+        </div>
+        <div>
+          <span class="label">Duration</span>
+          <span class="value">60 minutes</span>
+        </div>
+        <div>
+          <span class="label">Questions</span>
+          <span class="value">50 questions</span>
+        </div>
+        <div>
+          <span class="label">Status</span>
+          <span class="status-badge upcoming">Upcoming</span>
+        </div>
+      </div>
+      <button class="start-btn" onclick="startExam('math')">Start Exam</button>
+    </div>
+    
+    <div class="exam-card">
+      <h3>🧪 Physics - Midterm Examination</h3>
+      <div class="exam-info">
+        <div>
+          <span class="label">Subject</span>
+          <span class="value">Physics</span>
+        </div>
+        <div>
+          <span class="label">Date</span>
+          <span class="value">March 16, 2026</span>
+        </div>
+        <div>
+          <span class="label">Duration</span>
+          <span class="value">45 minutes</span>
+        </div>
+        <div>
+          <span class="label">Questions</span>
+          <span class="value">40 questions</span>
+        </div>
+        <div>
+          <span class="label">Status</span>
+          <span class="status-badge upcoming">Upcoming</span>
+        </div>
+      </div>
+      <button class="start-btn" onclick="startExam('physics')">Start Exam</button>
+    </div>
+    
+    <div class="exam-card">
+      <h3>🔬 Chemistry - Midterm Examination</h3>
+      <div class="exam-info">
+        <div>
+          <span class="label">Subject</span>
+          <span class="value">Chemistry</span>
+        </div>
+        <div>
+          <span class="label">Date</span>
+          <span class="value">March 17, 2026</span>
+        </div>
+        <div>
+          <span class="label">Duration</span>
+          <span class="value">45 minutes</span>
+        </div>
+        <div>
+          <span class="label">Questions</span>
+          <span class="value">40 questions</span>
+        </div>
+        <div>
+          <span class="label">Status</span>
+          <span class="status-badge upcoming">Upcoming</span>
+        </div>
+      </div>
+      <button class="start-btn" onclick="startExam('chemistry')">Start Exam</button>
+    </div>
+  </div>
+  
+  <div id="examArea" style="display:none">
+    <div class="timer" id="timer">60:00</div>
+    
+    <div class="exam-question">
+      <h4>Question 1 of 10</h4>
+      <p>What is the value of x in the equation 2x + 5 = 15?</p>
+      <div class="options">
+        <label><input type="radio" name="q1"><span> x = 5</span></label>
+        <label><input type="radio" name="q1"><span> x = 10</span></label>
+        <label><input type="radio" name="q1"><span> x = 7.5</span></label>
+        <label><input type="radio" name="q1"><span> x = 4</span></label>
+      </div>
+    </div>
+    
+    <div class="exam-question">
+      <h4>Question 2 of 10</h4>
+      <p>Calculate the area of a circle with radius 7cm (use π = 22/7)</p>
+      <div class="options">
+        <label><input type="radio" name="q2"><span> 154 cm²</span></label>
+        <label><input type="radio" name="q2"><span> 144 cm²</span></label>
+        <label><input type="radio" name="q2"><span> 164 cm²</span></label>
+        <label><input type="radio" name="q2"><span> 178 cm²</span></label>
+      </div>
+    </div>
+    
+    <div class="submit-section">
+      <button class="start-btn" onclick="submitExam()">Submit Exam</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2026 Nkawkaw Senior High School. All rights reserved.</p>
+</footer>
+
+<script>
+function logout() {
+  if (confirm('Logout of student portal?')) {
+    sessionStorage.removeItem('isLoggedIn');
+    sessionStorage.removeItem('currentUser');
+    location.href = 'login.html';
+  }
+}
+
+window.onload = function() {
+  const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+  const currentUser = sessionStorage.getItem('currentUser');
+  
+  if (!isLoggedIn || isLoggedIn !== 'true') {
+    location.href = 'login.html';
+    return;
+  }
+  
+  if (currentUser) {
+    document.getElementById('welcomeUser').textContent = 'Welcome, ' + currentUser;
+    document.getElementById('userAvatar').textContent = currentUser.charAt(0).toUpperCase();
+  }
+};
+
+let timeLeft = 3600;
+
+function startExam(subject) {
+  document.getElementById('examList').style.display = 'none';
+  document.getElementById('examArea').style.display = 'block';
+  
+  if (subject === 'math') timeLeft = 3600;
+  else if (subject === 'physics') timeLeft = 2700;
+  else timeLeft = 2700;
+  
+  startTimer();
+}
+
+function startTimer() {
+  const timer = document.getElementById('timer');
+  const interval = setInterval(() => {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    timer.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    
+    if (timeLeft <= 0) {
+      clearInterval(interval);
+      alert('Time is up! Your answers have been submitted.');
+      submitExam();
+    }
+    timeLeft--;
+  }, 1000);
+}
+
+function submitExam() {
+  if (confirm('Are you sure you want to submit your exam?')) {
+    alert('Exam submitted successfully! Your results will be available in the Results page.');
+    location.href = 'results.html';
+  }
+}
+</script>
+</body>
+</html>

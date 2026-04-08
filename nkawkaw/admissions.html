@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admissions - Nkawkaw Senior High School</title>
+<style>
+* {box-sizing: border-box; margin: 0; padding: 0}
+body {font-family: 'Segoe UI', Arial, sans-serif; background: #f8f9fa; color: #333; line-height: 1.6}
+a {text-decoration: none; color: inherit}
+
+header {
+  background: linear-gradient(135deg, #1a4731 0%, #0d5c2e 100%);
+  color: white;
+  padding: 30px 20px;
+  text-align: center
+}
+header h1 {font-size: 2.2rem; margin-bottom: 5px}
+header p {font-size: 1.1rem; opacity: 0.9}
+
+nav {
+  background: #111;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 100
+}
+nav a {
+  color: white;
+  padding: 16px 24px;
+  text-decoration: none;
+  transition: 0.3s;
+  border-bottom: 3px solid transparent
+}
+nav a:hover, nav a.active {
+  background: #1a4731;
+  border-bottom-color: #4caf50
+}
+
+.hero {
+  background: linear-gradient(rgba(26,71,49,0.9), rgba(13,92,46,0.9)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="%231a4731" width="100" height="100"/><text x="50" y="55" font-size="40" text-anchor="middle" fill="rgba(255,255,255,0.3)">🎓</text></svg>') center/cover;
+  color: white;
+  padding: 60px 20px;
+  text-align: center
+}
+.hero h2 {font-size: 2rem; margin-bottom: 10px}
+.hero p {font-size: 1.1rem; opacity: 0.9}
+
+.container {padding: 40px 20px; max-width: 1000px; margin: 0 auto}
+
+.intro {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  margin-bottom: 30px
+}
+.intro h3 {color: #1a4731; margin-bottom: 15px}
+.intro p {color: #555; margin-bottom: 10px}
+
+.requirements {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  margin-bottom: 30px
+}
+.requirements h3 {color: #1a4731; margin-bottom: 20px}
+.requirements ul {
+  list-style: none;
+  padding: 0
+}
+.requirements li {
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  gap: 12px
+}
+.requirements li::before {
+  content: "✓";
+  color: #4caf50;
+  font-weight: bold
+}
+.requirements li:last-child {border-bottom: none}
+
+.tracks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px
+}
+.track-card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08)
+}
+.track-card h3 {
+  color: #1a4731;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #4caf50
+}
+.track-card ul {
+  list-style: none;
+  padding: 0
+}
+.track-card li {
+  padding: 8px 0;
+  color: #555
+}
+.track-card li::before {
+  content: "•";
+  color: #1a4731;
+  font-weight: bold;
+  margin-right: 10px
+}
+
+.form-section {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  margin-bottom: 30px
+}
+.form-section h3 {color: #1a4731; margin-bottom: 20px}
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px
+}
+.form-group {margin-bottom: 15px}
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #333
+}
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border-color 0.3s
+}
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #1a4731
+}
+.form-group textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  min-height: 100px;
+  resize: vertical;
+  font-family: inherit
+}
+.form-group textarea:focus {
+  outline: none;
+  border-color: #1a4731
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, #1a4731 0%, #0d5c2e 100%);
+  color: white;
+  border: none;
+  padding: 14px 35px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s
+}
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(26,71,49,0.35)
+}
+
+.important {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px
+}
+.important h4 {
+  color: #856404;
+  margin-bottom: 10px
+}
+.important p {color: #856404; font-size: 14px}
+
+footer {
+  background: #111;
+  color: white;
+  text-align: center;
+  padding: 25px
+}
+footer p {opacity: 0.7; font-size: 14px}
+
+@media (max-width: 600px) {
+  header h1 {font-size: 1.6rem}
+  .hero {padding: 40px 20px}
+  .hero h2 {font-size: 1.5rem}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Nkawkaw Senior High School</h1>
+  <p>Education for Service</p>
+</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="news.html">News</a>
+  <a href="admissions.html" class="active">Admissions</a>
+  <a href="gallery.html">Gallery</a>
+  <a href="login.html">Student Login</a>
+  <a href="admin.html">Admin</a>
+</nav>
+
+<div style="padding:10px 20px;background:#f5f5f5">
+  <a href="index.html" style="color:#1a4731;text-decoration:none;font-size:14px">← Back</a>
+</div>
+
+<div class="hero">
+  <h2> Admissions</h2>
+  <p>Join Nkawkaw SHS - Where Excellence Begins</p>
+</div>
+
+<div class="container">
+  <div class="intro">
+    <h3>Welcome to NKAWKAW SHS Admissions</h3>
+    <p>Nkawkaw Senior High School is a premier educational institution located in the Eastern Region of Ghana. Established in 1969, we have a tradition of academic excellence and holistic development.</p>
+    <p>We invite qualified applicants to apply for admission into Secondary Year 1 (BS1) for the upcoming academic year.</p>
+  </div>
+
+  <div class="requirements">
+    <h3>Admission Requirements</h3>
+    <ul>
+      <li>Must have completed BECE (Basic Education Certificate Examination)</li>
+      <li>Minimum aggregate score of 30 or better (depending on track)</li>
+      <li>Age between 12-18 years</li>
+      <li>Good conduct certificate from previous school</li>
+      <li>Birth certificate or Ghana Card</li>
+      <li>Recent passport-size photographs</li>
+    </ul>
+  </div>
+
+  <div class="tracks">
+    <div class="track-card">
+      <h3>General Science</h3>
+      <ul>
+        <li>Biology, Chemistry, Physics</li>
+        <li>Mathematics, Elective Mathematics</li>
+        <li>English, Social Studies</li>
+      </ul>
+    </div>
+    <div class="track-card">
+      <h3>Business</h3>
+      <ul>
+        <li>Accounting, Economics</li>
+        <li>Business Mathematics, Management</li>
+        <li>English, Social Studies</li>
+      </ul>
+    </div>
+    <div class="track-card">
+      <h3>General Arts</h3>
+      <ul>
+        <li>Literature, History</li>
+        <li>Government, Philosophy</li>
+        <li>English, Social Studies</li>
+      </ul>
+    </div>
+    <div class="track-card">
+      <h3>Home Economics</h3>
+      <ul>
+        <li>Food & Nutrition, Management</li>
+        <li>Biology, Chemistry</li>
+        <li>English, Social Studies</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <h3>Apply Online</h3>
+    <form id="applicationForm" onsubmit="submitApplication(event)">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="firstName">First Name *</label>
+          <input type="text" id="firstName" required>
+        </div>
+        <div class="form-group">
+          <label for="lastName">Last Name *</label>
+          <input type="text" id="lastName" required>
+        </div>
+        <div class="form-group">
+          <label for="dob">Date of Birth *</label>
+          <input type="date" id="dob" required>
+        </div>
+        <div class="form-group">
+          <label for="gender">Gender *</label>
+          <select id="gender" required>
+            <option value="">Select</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="school">Previous School *</label>
+          <input type="text" id="school" required>
+        </div>
+        <div class="form-group">
+          <label for="aggregate">BECE Aggregate *</label>
+          <input type="number" id="aggregate" min="6" max="30" required placeholder="6-30">
+        </div>
+        <div class="form-group">
+          <label for="track">Preferred Track *</label>
+          <select id="track" required>
+            <option value="">Select Track</option>
+            <option value="general-science">General Science</option>
+            <option value="business">Business</option>
+            <option value="general-arts">General Arts</option>
+            <option value="home-economics">Home Economics</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="parentName">Parent/Guardian Name *</label>
+          <input type="text" id="parentName" required>
+        </div>
+        <div class="form-group">
+          <label for="parentPhone">Parent/Guardian Phone *</label>
+          <input type="tel" id="parentPhone" required>
+        </div>
+        <div class="form-group">
+          <label for="parentEmail">Parent/Guardian Email</label>
+          <input type="email" id="parentEmail">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="address">Residential Address</label>
+        <textarea id="address" placeholder="Enter address"></textarea>
+      </div>
+      <button type="submit" class="submit-btn">Submit Application</button>
+    </form>
+  </div>
+
+  <div class="important">
+    <h4>Important Dates</h4>
+    <p>• Application Period: Forms available throughout the year<br>
+    • Admissions Test: Conducted after form submission<br>
+    • Release of Admission: Via SMS and school notice board<br>
+    •Registration: Within one week of admission</p>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2026 Nkawkaw Senior High School. All rights reserved.</p>
+</footer>
+
+<script>
+function submitApplication(event) {
+  event.preventDefault();
+  
+  const firstName = document.getElementById('firstName').value;
+  const lastName = document.getElementById('lastName').value;
+  const track = document.getElementById('track').value;
+  const parentPhone = document.getElementById('parentPhone').value;
+  
+  if (firstName && lastName && track && parentPhone) {
+    alert('Application submitted successfully!\n\nWe will contact you shortly. Thank you for choosing NKAWKAW SHS!');
+    document.getElementById('applicationForm').reset();
+  } else {
+    alert('Please fill in all required fields.');
+  }
+}
+</script>
+</body>
+</html>
